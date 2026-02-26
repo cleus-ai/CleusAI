@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cleus-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+spec:
+  tls:
+    - hosts: [cleus.ai, www.cleus.ai]
+      secretName: cleus-tls
+  rules:
+    - host: cleus.ai
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend: { service: { name: cleus-api-svc, port: { number: 8080 } } }
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: cleus-web-svc, port: { number: 3000 } } }

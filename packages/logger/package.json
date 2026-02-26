@@ -1,0 +1,7 @@
+{
+  "name": "@cleus/logger",
+  "version": "0.1.0",
+  "main": "./src/index.ts",
+  "dependencies": { "winston": "^3.13.0" },
+  "devDependencies": { "typescript": "^5.4.0" }
+}

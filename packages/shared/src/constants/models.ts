@@ -1,0 +1,2 @@
+export const MODEL_PROVIDERS = { "cleus-uncensored": "cleus", "gpt-4o": "openai", "gpt-4o-mini": "openai", "o1-preview": "openai", "claude-3-opus": "anthropic", "claude-3-sonnet": "anthropic", "claude-3-haiku": "anthropic", "gemini-1.5-pro": "google", "gemini-1.5-flash": "google", "llama-3-70b": "meta", "grok-2": "xai" } as const;
+export const CONTEXT_WINDOWS = { "cleus-uncensored": 128000, "gpt-4o": 128000, "claude-3-opus": 200000, "gemini-1.5-pro": 1000000 } as const;

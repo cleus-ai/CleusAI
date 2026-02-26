@@ -1,0 +1,11 @@
+{
+  "title": "Cleus API Metrics",
+  "uid": "cleus-api",
+  "panels": [
+    { "title": "Request Rate",  "type": "stat",  "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 } },
+    { "title": "Error Rate",    "type": "stat",  "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 } },
+    { "title": "Latency p99",   "type": "gauge", "gridPos": { "x": 12,"y": 0, "w": 6, "h": 4 } },
+    { "title": "Active Users",  "type": "stat",  "gridPos": { "x": 18,"y": 0, "w": 6, "h": 4 } },
+    { "title": "Request Timeline", "type": "timeseries", "gridPos": { "x": 0, "y": 4, "w": 24, "h": 8 } }
+  ]
+}
