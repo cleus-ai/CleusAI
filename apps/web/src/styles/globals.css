@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-brand: 139 92 246;       /* violet-500 */
+  --color-brand-dark: 109 40 217;  /* violet-700 */
+}
+
+@layer base {
+  * { @apply border-zinc-800; }
+  html { @apply antialiased; }
+  body { @apply bg-zinc-950 text-zinc-100; }
+  ::-webkit-scrollbar { @apply w-1.5; }
+  ::-webkit-scrollbar-track { @apply bg-zinc-950; }
+  ::-webkit-scrollbar-thumb { @apply bg-zinc-700 rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-zinc-600; }
+}
+
+@layer utilities {
+  .scrollbar-hide { scrollbar-width: none; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .text-gradient { @apply bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-pink-400; }
+  .glass { @apply backdrop-blur-md bg-white/5 border border-white/10; }
+}

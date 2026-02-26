@@ -1,0 +1,175 @@
+// Prisma schema for Cleus AI platform
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  username      String   @unique
+  passwordHash  String?
+  avatarUrl     String?
+  plan          Plan     @default(FREE)
+  credits       Int      @default(50)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  conversations     Conversation[]
+  generatedImages   GeneratedImage[]
+  generatedVideos   GeneratedVideo[]
+  stories           Story[]
+  characters        UserCharacter[]
+  subscriptions     Subscription[]
+
+  @@index([email])
+}
+
+enum Plan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  title     String
+  model     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@index([userId])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           Role
+  content        String   @db.Text
+  model          String?
+  attachments    String[] // URLs
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+}
+
+enum Role {
+  user
+  assistant
+  system
+}
+
+model GeneratedImage {
+  id         String   @id @default(cuid())
+  userId     String
+  prompt     String   @db.Text
+  imageUrl   String
+  model      String
+  style      String?
+  width      Int
+  height     Int
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model GeneratedVideo {
+  id        String      @id @default(cuid())
+  userId    String
+  prompt    String      @db.Text
+  videoUrl  String?
+  status    VideoStatus @default(PENDING)
+  model     String
+  duration  Int?        // seconds
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+enum VideoStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model Story {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  plot        String   @db.Text
+  style       String
+  generatedAt DateTime @default(now())
+  content     String   @db.Text
+
+  user       User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  characters StoryCharacter[]
+  places     StoryPlace[]
+
+  @@index([userId])
+}
+
+model StoryCharacter {
+  id          String @id @default(cuid())
+  storyId     String
+  name        String
+  description String
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model StoryPlace {
+  id          String @id @default(cuid())
+  storyId     String
+  name        String
+  description String
+
+  story Story @relation(fields: [storyId], references: [id], onDelete: Cascade)
+}
+
+model UserCharacter {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String   @db.Text
+  avatarUrl   String?
+  personality String   @db.Text
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isPublic])
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  stripeSubscriptionId String   @unique
+  stripePriceId        String
+  status               String
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  createdAt            DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

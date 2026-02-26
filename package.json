@@ -1,0 +1,27 @@
+{
+  "name": "cleus-ai",
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json,md}\"",
+    "db:push": "cd apps/api && npx prisma db push",
+    "db:migrate": "cd apps/api && npx prisma migrate dev",
+    "db:seed": "cd apps/api && npx ts-node prisma/seed.ts",
+    "docker:up": "docker compose -f infra/docker/docker-compose.yml up -d",
+    "docker:down": "docker compose -f infra/docker/docker-compose.yml down"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "prettier": "^3.2.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.1.0"
+}

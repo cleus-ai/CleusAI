@@ -1,0 +1,23 @@
+{
+  "name": "@cleus/worker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@cleus/shared": "workspace:*",
+    "@prisma/client": "^5.13.0",
+    "replicate": "^0.31.0",
+    "bull": "^4.12.2",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.9.0",
+    "typescript": "^5.4.0"
+  }
+}
